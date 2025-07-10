@@ -81,4 +81,14 @@ class AuthEmpController extends Controller
             'Status'=>200
         ];
     }
+
+    public function emp_details(Request $request, $email)
+    {
+        $search_emp = employee::where('Email', $email)->first();
+        return [
+            'Emp_designation'=>$search_emp->Designation,
+            'Status'=>200,
+            'Message'=>"Employee Designation Found..!!!"
+        ];
+    }
 }

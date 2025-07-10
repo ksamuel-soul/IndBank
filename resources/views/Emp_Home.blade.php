@@ -533,3 +533,29 @@
         }
     }
 </script>
+
+<script>
+    const eee = sessionStorage.getItem('email');
+    fetch(`http://127.0.0.1:8000/api/emp_details/${eee}`, {
+        method: "GET",
+        headers: {"Content-type":"application/json"}
+    }).then(res=>res.json()).then(data=>{
+        if(data.Status == 200)
+        {
+            if(data.Emp_designation != "Loan_Officer")
+            {
+                document.getElementById('app_no').disabled = true;
+                document.getElementById('months').disabled = true;
+                document.getElementById('chk_ln_acc_no').disabled = true;
+            }
+            else{
+                document.getElementById('reg_acc_no').disabled = true;
+                document.getElementById('chk_acc_no').disabled = true;
+            }
+        }
+        else 
+        {
+            alert("Something went wrong..!!!");
+        }
+    });
+</script>

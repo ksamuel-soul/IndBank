@@ -100,6 +100,7 @@
             if(data.Status == 200)
             {
                 sessionStorage.setItem("Emp_Token", data.Token);
+                sessionStorage.setItem("Email", data.User_Details.Email);
                 sessionStorage.setItem("Emp_Name", data.User_Details.First_Name);
                 window.location.href = "/api/emp_home"; 
             }

@@ -3,6 +3,7 @@
 
 <head>
     <meta charset="UTF-8" />
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/sweetalert2@11.22.2/dist/sweetalert2.min.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css">
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/toastify-js/src/toastify.min.css">
     <meta name="viewport" content="width=device-width, initial-scale=1" />
@@ -181,6 +182,7 @@
 
 </html>
 <script src="https://cdn.jsdelivr.net/npm/toastify-js"></script>
+<script src="https://cdn.jsdelivr.net/npm/sweetalert2@11.22.2/dist/sweetalert2.all.min.js"></script>
 
 <script>
     const form = document.getElementById('acctAppForm');
@@ -207,22 +209,17 @@
             body: JSON.stringify(data)
         }).then(res => res.json()).then(data => {
             if (data.Status == 200) {
-                const timed = 10000;
-                console.log(data.User_Details);
-
-                Toastify({
-                    text: data.Message + "\n" + `Your Account Number:- ${data.User_Details.Account_No} <sup><i class="fa-solid fa-copy" style='font-size: 15px;'  onclick='navigator.clipboard.writeText("${data.User_Details.Account_No}");'></sup></i>`,
-                    duration: timed,
-                    gravity: "top",
-                    position: "right",
-                    backgroundColor: "#4caf50",
-                    close: false,
-                    escapeMarkup: false 
-                }).showToast();
-                setTimeout(() => {
-                    window.location.href = "/api/saving_current";
-                }, timed);
-            } else {
+                Swal.fire({
+                    title: data.Message,
+                    html:  `Your Account Number:- ${data.User_Details.Account_No} <sup><i class="fa-solid fa-copy" style='font-size: 15px;'  onclick='navigator.clipboard.writeText("${data.User_Details.Account_No}");'></sup></i>`,
+                    icon: "success"
+                }).then(res=>{
+                    if(res.isConfirmed)
+                    {
+                        window.location.href = '/api/saving_current';
+                    }
+                });
+            } else if(data.Status == 404) {
                 Toastify({
                     text: data.Message,
                     duration: 10000,

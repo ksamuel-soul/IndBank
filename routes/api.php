@@ -74,6 +74,8 @@ Route::get('/imb', function(){
     return view('imb_home');
 });
 
+Route::get('/emp_details/{email}', [AuthEmpController::class, 'emp_details']);
+
 Route::get('/cus_login', function(){
     return view('customer_login');
 });
